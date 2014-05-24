@@ -12,8 +12,8 @@ require __DIR__.'/php_error.php';
 /**
  * 加载composer
  */
-if (file_exists(APP.'/vendor')) { 
-	require __DIR__.'/vendor/autoload.php';
+if (file_exists(APP.'/vendor')) {
+    require __DIR__.'/vendor/autoload.php';
 }
 require APP.DS.'libs'.DS.'Bootstrap'.EXT;
 // Controller\Test::a();

@@ -1,8 +1,8 @@
 <?php
 namespace Run;
 
-class ClassLoader {
-
+class ClassLoader
+{
     public static $aliases = array();
     /**
      * The registered directories.
@@ -21,19 +21,17 @@ class ClassLoader {
     /**
      * Load the given class file.
      *
-     * @param  string  $class
+     * @param  string $class
      * @return void
      */
     public static function load($class)
     {
         $class = static::normalizeClass($class);
-        if(array_key_exists(strtolower($class), array_change_key_case(static::$aliases))) {
+        if (array_key_exists(strtolower($class), array_change_key_case(static::$aliases))) {
             return class_alias(static::$aliases[$class], $class);
         }
-        foreach (static::$directories as $directory)
-        {
-            if (file_exists($path = $directory.DIRECTORY_SEPARATOR.$class))
-            {
+        foreach (static::$directories as $directory) {
+            if (file_exists($path = $directory.DIRECTORY_SEPARATOR.$class)) {
                 require_once $path;
 
                 return true;
@@ -44,13 +42,12 @@ class ClassLoader {
     /**
      * Get the normal file name for a class.
      *
-     * @param  string  $class
+     * @param  string $class
      * @return string
      */
     public static function normalizeClass($class)
     {
         if ($class[0] == '\\') $class = substr($class, 1);
-
         return str_replace(array('\\', '_'), DIRECTORY_SEPARATOR, $class).'.php';
     }
 
@@ -61,8 +58,7 @@ class ClassLoader {
      */
     public static function register()
     {
-        if ( ! static::$registered)
-        {
+        if (! static::$registered) {
             static::$registered = spl_autoload_register(array('Run\\ClassLoader', 'load'));
         }
     }
@@ -70,7 +66,7 @@ class ClassLoader {
     /**
      * Add directories to the class loader.
      *
-     * @param  string|array  $directories
+     * @param  string|array $directories
      * @return void
      */
     public static function addDirectories($directories)
@@ -83,21 +79,17 @@ class ClassLoader {
     /**
      * Remove directories from the class loader.
      *
-     * @param  string|array  $directories
+     * @param  string|array $directories
      * @return void
      */
     public static function removeDirectories($directories = null)
     {
-        if (is_null($directories))
-        {
+        if (is_null($directories)) {
             static::$directories = array();
-        }
-        else
-        {
+        } else {
             $directories = (array) $directories;
 
-            static::$directories = array_filter(static::$directories, function($directory) use ($directories)
-        {
+            static::$directories = array_filter(static::$directories, function ($directory) use ($directories) {
             return ( ! in_array($directory, $directories));
         });
         }
